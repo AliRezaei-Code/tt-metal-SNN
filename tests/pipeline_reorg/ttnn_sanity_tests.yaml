@@ -337,3 +337,41 @@
   team: ttnn
   budget_type: sanity
   owner_id: U091SNDA4TS # Tomasz Cheda
+
+# SNN framework (models/experimental/snn). sim_* SKUs run the same cmd under the ttsim
+# simulator; ttnn-sanity-tests-impl.yaml invokes setup-ttsim for these.
+#
+# TT_METAL_SIMULATOR and TT_METAL_SIMULATOR_HOME are NOT set here on purpose: the job's
+# Setup TTSim step already exports them, pointing tt-umd at the provisioned libttsim .so.
+# Setting TT_METAL_SIMULATOR without provisioning the library would make the runtime try to
+# open real silicon. These two are additive to what setup-ttsim provides:
+#   TT_METAL_SLOW_DISPATCH_MODE=1: tt_metal/tt-llk/tests/TTSIM.md states ttsim does not
+#   implement fast dispatch and that any program invoked alongside needs this.
+#   TT_METAL_DISABLE_SFPLOADMACRO=1: ttsim does not implement SFPLOADMACRO, which the LIF
+#   kernel's SFPU ops (mul_unary_tile, unary_gt_tile, copy_dest_values) issue.
+#
+# `python3 -m pytest` rather than bare `pytest`: pytest.ini sets --import-mode=importlib,
+# which does not put the repo root on sys.path, and both the suite's and conftest.py's
+# imports are rooted at `models.` and `conftest`.
+#
+# Timeout arithmetic. The pool in time_budget.yaml is the SUM of every entry charging
+# (ttnn, sanity, <sku>), and the pre-existing entries already sat exactly on the 695/680
+# caps, so this entry's 20 min is what the same PR raises each cap by. The per-test
+# `--timeout` is deliberately far below the 20 min job cap: it is seconds, so 1200 would
+# have been 20 min for EACH of ~40 cases against a 20 min job. 300 s per test is still not
+# a worst-case bound (40 x 300 s > 20 min), so the job's own timeout-minutes is the real
+# backstop and a hang fails the job rather than stalling it. Both numbers are unmeasured
+# first-cut allowances: ttsim runs 10-50x slower than silicon. Recalibrate from the first
+# green run and adjust the pool to match.
+- name: "SNN framework unit tests"
+  cmd: >-
+    export TT_METAL_SLOW_DISPATCH_MODE=1;
+    export TT_METAL_DISABLE_SFPLOADMACRO=1;
+    python3 -m pytest --timeout 300 -x -q models/experimental/snn/tests/
+  skus:
+    sim_wh_n150:
+      timeout: 20
+    sim_bh_p150:
+      timeout: 20
+  team: ttnn
+  budget_type: sanity

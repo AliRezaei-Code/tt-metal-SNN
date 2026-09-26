@@ -629,6 +629,7 @@ models/experimental/panoptic_deeplab @mbezuljTT @ianastasijevicTT @pavlepopovic 
 models/experimental/petr/ @tenstorrent/cse-developer-ttnn @dvartaniansTT @sdawle-TT
 models/experimental/retinanet @dvartaniansTT @tenstorrent/cse-developer-ttnn
 models/experimental/smolvla @tvardhineniTT @dvartaniansTT @tenstorrent/cse-developer-ttnn
+models/experimental/snn/ @AliRezaei-Code
 models/experimental/speecht5_tts @ssinghalTT @tenstorrent/cse-developer-ttnn
 models/experimental/swin_s @arginugaTT @tenstorrent/cse-developer-ttnn
 models/experimental/swin_v2 @arginugaTT @tenstorrent/cse-developer-ttnn
