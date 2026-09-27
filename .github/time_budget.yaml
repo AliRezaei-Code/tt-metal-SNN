@@ -84,8 +84,13 @@ ttnn:
     bh_quietbox_2: 65
     bh_p300: 15
     wh_llmbox_civ2: 40
-    sim_wh_n150: 695
-    sim_bh_p150: 680
+    # +20 for the "SNN framework unit tests" entry in ttnn_sanity_tests.yaml. The pool
+    # sums every entry charging (ttnn, sanity, <sku>), and the pre-existing entries already
+    # sat exactly on 695/680, so the new entry needs the matching increase or
+    # verify_time_budget.py fails the PR. The 20 is a first-cut allowance, not a
+    # measurement: ttsim runs 10-50x slower than silicon. Recalibrate from the first run.
+    sim_wh_n150: 715
+    sim_bh_p150: 700
   unit:
     wh_llmbox: 50
     wh_galaxy: 125

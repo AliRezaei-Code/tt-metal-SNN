@@ -1751,3 +1751,25 @@ targets:
             accuracy: {}
             owner_id: U03HY7MK4BT # Mark O'Connor
             team: models
+
+  # SNN (models/experimental/snn) has no measurement on any SKU yet. Its only
+  # automated coverage is the ttnn sanity leg, a functional simulator with no
+  # timing fidelity, so a spike-throughput or latency figure taken there would
+  # not describe silicon -- declaring one would be a guess, and these numbers are
+  # the source of truth every other reader cites. Both entries are therefore
+  # explicit TODO placeholders: `status: todo` is excluded from target
+  # resolution and reported as missing rather than compared against a value
+  # nobody measured. Fill perf in from the first run on real hardware.
+  snn:
+    aliases: ["SNN", "snn", "Spiking Neural Network"]
+    skus:
+      wh_n150:
+        entries:
+          - status: TODO
+            perf: {}
+            accuracy: {}
+      bh_p150:
+        entries:
+          - status: TODO
+            perf: {}
+            accuracy: {}

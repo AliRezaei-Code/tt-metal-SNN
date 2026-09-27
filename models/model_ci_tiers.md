@@ -148,6 +148,9 @@ it is classified differently on different systems.
 | VAD v2 | WH N150 |
 | OpenPDN-MNIST | WH N150 |
 | YuNet | WH N150 |
+| SNN | none yet (simulator only) |
+
+SNN is the one row here with no hardware system. Its only automated coverage is the [ttnn sanity](../tests/pipeline_reorg/ttnn_sanity_tests.yaml) leg on the `sim_wh_n150` and `sim_bh_p150` simulators, and that leg cannot run on a pull request to a fork at all. It has never executed a kernel, so it has no tier 3 end-to-end or unit registration and no perf or accuracy targets. The row will name real systems when it first runs on hardware.
 
 
 # Pipelines
